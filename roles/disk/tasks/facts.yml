@@ -29,7 +29,6 @@
     alicloud_secret_key: '{{ secret_key }}'
     alicloud_region: '{{ region }}'
     name_prefix: '{{ disk.name }}'
-    tags: '{{ tags }}'
     filters:
       zone_id: '{{ ecs.zone }}'
       instance_id: '{{ iecs.instances.0.id }}'

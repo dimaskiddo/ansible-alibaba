@@ -1,0 +1,4 @@
+---
+- name: "[ {{ iecs.instances.0.id }} - {{ disk.name }} ] Refreshing Disk"
+  wait_for:
+    timeout: 5

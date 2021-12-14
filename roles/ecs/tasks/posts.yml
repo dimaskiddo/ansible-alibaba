@@ -1,0 +1,4 @@
+---
+- name: "[ {{ ecs.name }} ] Refreshing ECS"
+  wait_for:
+    timeout: 5

@@ -1,0 +1,4 @@
+---
+- name: "[ {{ sgs.name }} ] Refreshing Security Group"
+  wait_for:
+    timeout: 3

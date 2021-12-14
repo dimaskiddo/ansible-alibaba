@@ -1,0 +1,4 @@
+---
+- name: "[ {{ slb.name }} ] Refreshing SLB"
+  wait_for:
+    timeout: 5

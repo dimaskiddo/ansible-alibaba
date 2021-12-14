@@ -1,0 +1,4 @@
+---
+- name: "[ {{ attach.id }} - {{ eip.name }} ] Refreshing EIP"
+  wait_for:
+    timeout: 3

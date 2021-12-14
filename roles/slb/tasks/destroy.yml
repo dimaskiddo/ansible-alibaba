@@ -1,5 +1,5 @@
 ---
-- name: "[ {{ slb.name }} ] Destroying SLB - Configuring VSG"
+- name: "[ {{ slb.name }} ] Destroying SLB Subtask VSG"
   include_role:
     name: slb_vsg
   loop: '{{ slb.vsg | flatten(levels=1) }}'

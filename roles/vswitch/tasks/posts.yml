@@ -1,0 +1,4 @@
+---
+- name: "[ {{ vsw.vswitch.name }} - {{ vsw.vswitch.cidr }} ] Refreshing VSwitch"
+  wait_for:
+    timeout: 3

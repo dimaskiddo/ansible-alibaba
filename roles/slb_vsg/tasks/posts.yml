@@ -1,0 +1,4 @@
+---
+- name: "[ {{ islb.load_balancers.0.id }} - {{ vsg.name }} ] Refreshing VSG"
+  wait_for:
+    timeout: 3

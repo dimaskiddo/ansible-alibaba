@@ -16,7 +16,7 @@
     - islb.load_balancers.0.id is not defined
   register: cslb
 
-- name: "[ {{ slb.name }} ] Creating SLB - Configuring VSG"
+- name: "[ {{ slb.name }} ] Creating SLB Subtask VSG"
   include_role:
     name: slb_vsg
   loop: '{{ slb.vsg | flatten(levels=1) }}'

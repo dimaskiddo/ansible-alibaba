@@ -1,4 +1,30 @@
 ---
+- name: "Setting-up EIP-ECS Facts"
+  set_fact:
+    eip:
+      name: '{{ ecs.eip.name }}'
+      charge_type: '{{ ecs.eip.charge_type }}'
+      bandwidth: '{{ ecs.eip.bandwidth }}'
+    instance:
+      name: '{{ ecs.name }}'
+      zone: '{{ ecs.zone }}'
+      type: EcsInstance
+  when:
+    - type == 'ecs'
+
+- name: "Setting-up EIP-SLB Facts"
+  set_fact:
+    eip:
+      name: '{{ slb.eip.name }}'
+      charge_type: '{{ slb.eip.charge_type }}'
+      bandwidth: '{{ slb.eip.bandwidth }}'
+    instance:
+      name: '{{ slb.name }}'
+      zone: '{{ slb.zone.zone_1 }}'
+      type: SlbInstance
+  when:
+    - type == 'slb'
+
 - name: "[ {{ vpc.name }} - {{ vpc.cidr }} ] Gathering VPC Facts"
   ali_vpc_info:
     alicloud_access_key: '{{ access_key }}'
@@ -11,26 +37,56 @@
       is_default: false
   register: ivpc
 
-- name: "[ {{ ecs.name }} ] Gathering ECS Facts"
+- name: "[ {{ instance.name }} ] Gathering ECS Facts"
   ali_instance_info:
     alicloud_access_key: '{{ access_key }}'
     alicloud_secret_key: '{{ secret_key }}'
     alicloud_region: '{{ region }}'
-    alicloud_zone: '{{ ecs.zone }}'
-    instance_names: '{{ ecs.name }}'
+    alicloud_zone: '{{ instance.zone }}'
+    instance_names: '{{ instance.name }}'
     tags: '{{ tags }}'
     filters:
       vpc_id: '{{ ivpc.vpcs.0.id }}'
+  when:
+    - type == 'ecs'
   register: iecs
 
-- name: "[ {{ iecs.instances.0.id }} - {{ ecs.eip.name }} ] Gathering EIP Facts"
+- name: "[ {{ instance.name }} ] Setting-up ECS Facts"
+  set_fact:
+    attach:
+      id: '{{ iecs.instances.0.id }}'
+  when:
+    - type == 'ecs'
+
+- name: "[ {{ instance.name }} ] Gathering SLB Facts"
+  ali_slb_lb_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    name_prefix: '{{ instance.name }}'
+    tags: '{{ tags }}'
+    filters:
+      vpc_id: '{{ ivpc.vpcs.0.id }}'
+      master_zone_id: '{{ instance.zone }}'
+  when:
+    - type == 'slb'
+  register: islb
+
+- name: "[ {{ instance.name }} ] Setting-up SLB Facts"
+  set_fact:
+    attach:
+      id: '{{ islb.load_balancers.0.id }}'
+  when:
+    - type == 'slb'
+
+- name: "[ {{ attach.id }} - {{ eip.name }} ] Gathering EIP Facts"
   ali_eip_info:
     alicloud_access_key: '{{ access_key }}'
     alicloud_secret_key: '{{ secret_key }}'
     alicloud_region: '{{ region }}'
-    name_prefix: '{{ ecs.eip.name }}'
+    name_prefix: '{{ eip.name }}'
     tags: '{{ tags }}'
     filters:
-      associated_instance_id: '{{ iecs.instances.0.id }}'
-      associated_instance_type: EcsInstance
+      associated_instance_id: '{{ attach.id }}'
+      associated_instance_type: '{{ instance.type }}'
   register: ieip

@@ -1,5 +1,13 @@
 ---
-- name: "[ {{ ecs.name }} ] Destroying ECS - Configuring Disk"
+- name: "[ {{ ecs.name }} ] Destroying ECS Subtask EIP"
+  include_role:
+    name: eip
+  vars:
+    type: ecs
+  when:
+    - ecs.eip is defined
+
+- name: "[ {{ ecs.name }} ] Destroying ECS Subtask Disk"
   include_role:
     name: disk
   loop: '{{ ecs.disk.data | flatten(levels=1) }}'
@@ -7,12 +15,6 @@
     loop_var: disk
   when:
     - ecs.disk.data is defined
-
-- name: "[ {{ ecs.name }} ] Destroying ECS - Configuring EIP"
-  include_role:
-    name: eip
-  when:
-    - ecs.eip is defined
 
 - name: "[ {{ ecs.name }} ] Destroying ECS"
   ali_instance:

@@ -8,3 +8,5 @@
 - include: destroy.yml
   when:
     - actions == 'destroy'
+
+- include: posts.yml

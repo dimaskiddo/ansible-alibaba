@@ -1,0 +1,4 @@
+---
+- name: "[ {{ vpc.name }} - {{ vpc.cidr }} ] Refreshing VPC"
+  wait_for:
+    timeout: 3

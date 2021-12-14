@@ -1,5 +1,5 @@
 ---
-- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol }}:{{ vsg.listener.port }} ] Creating Listener"
+- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol | upper }}:{{ vsg.listener.port }} ] Creating Listener"
   ali_slb_listener:
     alicloud_access_key: '{{ access_key }}'
     alicloud_secret_key: '{{ secret_key }}'
@@ -17,7 +17,7 @@
     - vsg.listener.certificate_id is not defined
   register: clistener
 
-- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol }}:{{ vsg.listener.port }} ] Creating Listener With Certificate"
+- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol | upper }}:{{ vsg.listener.port }} ] Creating Listener With Certificate"
   ali_slb_listener:
     alicloud_access_key: '{{ access_key }}'
     alicloud_secret_key: '{{ secret_key }}'

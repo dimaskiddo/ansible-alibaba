@@ -17,15 +17,6 @@ instance:
       name: 'VSW-AP-SEA-5A'
     security_group:
       name: 'SGR-AP-SEA-5-Default'
-    eip:
-      name: 'EIP-AP-SEA-5-1'
-      # Valid Value:
-      # PayByBandwidth      : Bandwidth Based
-      # PayByTraffic        : Traffic Based
-      charge_type: 'PayByBandwidth'
-      # Valid Value:
-      # In Mbps
-      bandwidth: 10
     disk:
       # System Disk
       system:

@@ -4,7 +4,7 @@
 
   vars_files:
     - vars/01-vpc.yml
-    - vars/04-ecs.yml
+    - vars/05-ecs_public.yml
 
   tasks:
     - name: Configuring ECS Resource

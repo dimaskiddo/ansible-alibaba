@@ -1,10 +1,4 @@
 ---
-- name: "[ {{ islb.load_balancers.0.id }} - {{ vsg.name }} ] Destroying VSG - Configuring Listener"
-  include_role:
-    name: slb_vsg_listener
-  when:
-    - vsg.listener is defined
-
 - name: "[ {{ islb.load_balancers.0.id }} - {{ vsg.name }} ] Destroying VSG"
   ali_slb_vsg:
     alicloud_access_key: '{{ access_key }}'

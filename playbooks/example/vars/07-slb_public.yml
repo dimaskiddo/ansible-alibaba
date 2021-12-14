@@ -1,0 +1,41 @@
+---
+loadbalancer:
+  - name: 'SLB-AP-SEA-5-2'
+    type: 'slb.s1.small'
+    zone:
+      zone_1: 'ap-southeast-5a'   # Master Zone
+      zone_2: 'ap-southeast-5b'   # Secondary Zone
+    vswitch:
+      name: 'VSW-AP-SEA-5A'
+    eip:
+      name: 'EIP-AP-SEA-5-2'
+      # Valid Value:
+      # PayByBandwidth      : Bandwidth Based
+      # PayByTraffic        : Traffic Based
+      charge_type: 'PayByBandwidth'
+      # Valid Value:
+      # In Mbps
+      bandwidth: 10
+    vsg:
+      - name: 'SLB-AP-SEA-5-2-VSG-1'
+        backend:
+          - type: 'ecs'                          # Valid Value can be ecs or eni
+            server_id: 'i-k1a687z5j8ud9q5qaipz'  # Valid Value must be valid id of ecs oe eni
+            port: 8080
+            weight: 100
+    listener:
+      - vsg: "SLB-AP-SEA-5-2-VSG-1"
+        port: 80
+        # Valid Value:
+        # Should have the same value where the backend server port is listening
+        backend_port: 8080
+        # Valid Value:
+        # tcp       : for TCP based connection
+        # udp       : for UDP based connection
+        # http      : for HTTP based application
+        # https     : fot HTTPS based application
+        protocol: 'tcp'
+        # Valid Value:
+        # wrr       : for Weighted Round-Robin algortihm
+        # wlc       : for Weighted Least Connection algorithm
+        algorithm: 'wrr'

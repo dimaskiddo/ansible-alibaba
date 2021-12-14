@@ -9,12 +9,22 @@
     tags: '{{ tags }}'
     filters:
       is_default: false
-  when:
-    - islb.load_balancers.0.id is not defined
   register: ivpc
 
+- name: "[ {{ slb.vswitch.name }} ] Gathering VSwitch Facts"
+  ali_vswitch_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    vswitch_name: '{{ slb.vswitch.name }}'
+    tags: '{{ tags }}'
+    filters:
+      vpc_id: '{{ ivpc.vpcs.0.id }}'
+      zone_id: '{{ slb.zone.zone_1 }}'
+  register: ivsw
+
 - name: "[ {{ slb.name }} ] Gathering SLB Facts"
-  ali_instance_info:
+  ali_slb_lb_info:
     alicloud_access_key: '{{ access_key }}'
     alicloud_secret_key: '{{ secret_key }}'
     alicloud_region: '{{ region }}'
@@ -22,6 +32,7 @@
     tags: '{{ tags }}'
     filters:
       vpc_id: '{{ ivpc.vpcs.0.id }}'
+      vswitch_id: '{{ ivsw.vswitches.0.id }}'
       master_zone_id: '{{ slb.zone.zone_1 }}'
       slave_zone_id: '{{ slb.zone.zone_2 }}'
   register: islb
@@ -35,7 +46,7 @@
     name_prefix: '{{ vsg.name }}'
   register: ivsg
 
-- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol }}:{{ vsg.listener.port }} ] Gathering Listener Facts"
+- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol | upper }}:{{ vsg.listener.port }} ] Gathering Listener Facts"
   ali_slb_listener_info:
     alicloud_access_key: '{{ access_key }}'
     alicloud_secret_key: '{{ secret_key }}'

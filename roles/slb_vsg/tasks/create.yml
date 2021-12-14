@@ -11,9 +11,3 @@
   when:
     - ivsg.vserver_groups.0.id is not defined
   register: cvsg
-
-- name: "[ {{ islb.load_balancers.0.id }} - {{ vsg.name }} ] Creating VSG - Configuring Listener"
-  include_role:
-    name: slb_vsg_listener
-  when:
-    - vsg.listener is defined

@@ -21,4 +21,5 @@
     tags: '{{ tags }}'
     filters:
       vpc_id: '{{ ivpc.vpcs.0.id }}'
+      zone_id: '{{ vsw.name }}'
   register: ivsw

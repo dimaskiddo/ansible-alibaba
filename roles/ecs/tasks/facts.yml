@@ -20,6 +20,7 @@
     tags: '{{ tags }}'
     filters:
       vpc_id: '{{ ivpc.vpcs.0.id }}'
+      zone_id: '{{ ecs.zone }}'
   register: ivsw
 
 - name: "[ {{ ecs.security_group.name }} ] Gathering Security Group Facts"

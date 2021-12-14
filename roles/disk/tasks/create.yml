@@ -1,0 +1,18 @@
+---
+- name: "[ {{ iecs.instances.0.id }} - {{ disk.name }} ] Creating Disk"
+  ali_disk:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    alicloud_zone: '{{ ecs.zone }}'
+    instance_id: '{{ iecs.instances.0.id }}'
+    disk_name: '{{ disk.name }}'
+    description: '{{ disk.description }}'
+    disk_category: '{{ disk.category }}'
+    size: '{{ disk.size }}'
+    delete_with_instance: '{{ disk.delete_with_instance }}'
+    disk_tags: [ '{{ tags }}' ]
+    state: present
+  when:
+    - idisk.disks.0.id is not defined
+  register: cdisk

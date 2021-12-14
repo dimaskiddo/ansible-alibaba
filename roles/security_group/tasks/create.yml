@@ -1,0 +1,16 @@
+---
+- name: "[ {{ sgs.name }} ] Creating Security Group"
+  ali_security_group:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    vpc_id: '{{ ivpc.vpcs.0.id }}'
+    name: '{{ sgs.name }}'
+    description: '{{ sgs.description }}'
+    rules: '{{ sgs.inbound }}'
+    rules_egress: '{{ sgs.outbound }}'
+    tags: '{{ tags }}'
+    state: present
+  when:
+    - isgs.groups.0.id is not defined
+  register: csgs

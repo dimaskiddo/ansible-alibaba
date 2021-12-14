@@ -1,0 +1,27 @@
+---
+- name: "[ {{ vsw.vswitch.name }} - {{ vsw.vswitch.cidr }} ] Craeting VSwitch"
+  ali_vswitch:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    alicloud_zone: '{{ vsw.name }}'
+    vpc_id: '{{ ivpc.vpcs.0.id }}'
+    vswitch_name: '{{ vsw.vswitch.name }}'
+    description: '{{ vsw.vswitch.description }}'
+    cidr_block: '{{ vsw.vswitch.cidr }}'
+    state: present
+  when:
+    - ivsw.vswitches.0.id is not defined
+  register: cvsw
+
+- name: "[ {{ vsw.vswitch.name }} - {{ vsw.vswitch.cidr }} ] Tagging VSwitch"
+  ali_vpc_tag:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    resource_ids: '{{ cvsw.vswitch.id }}'
+    resource_type: vswitch
+    tags: '{{ tags }}'
+    state: present
+  when:
+    - ivsw.vswitches.0.id is not defined

@@ -1,0 +1,12 @@
+---
+- name: "[ {{ iecs.instances.0.id }} - {{ disk.name }} ] Destroying Disk"
+  ali_disk:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    alicloud_zone: '{{ ecs.zone }}'
+    instance_id: '{{ iecs.instances.0.id }}'
+    disk_name: '{{ disk.name }}'
+    state: absent
+  when:
+    - idisk.disks.0.id is defined

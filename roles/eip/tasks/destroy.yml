@@ -1,0 +1,12 @@
+---
+- name: "[ {{ iecs.instances.0.id }} - {{ ecs.eip.name }} ] Destroying EIP"
+  ali_eip:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    instance_id: '{{ iecs.instances.0.id }}'
+    allocation_id: '{{ ieip.eips.0.id }}'
+    name: '{{ ecs.eip.name }}'
+    state: absent
+  when:
+    - ieip.eips.0.id is defined

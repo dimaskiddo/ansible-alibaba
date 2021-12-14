@@ -1,0 +1,29 @@
+---
+- name: "[ {{ iecs.instances.0.id }} - {{ ecs.eip.name }} ] Creating EIP"
+  ali_eip:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    instance_id: '{{ iecs.instances.0.id }}'
+    name: '{{ ecs.eip.name }}'
+    internet_charge_type: '{{ ecs.eip.charge_type }}'
+    bandwidth: '{{ ecs.eip.bandwidth }}'
+    allow_reassociation: true
+    release_on_disassociation: false
+    reuse_existing_ip_allowed: false
+    state: present
+  when:
+    - ieip.eips.0.id is not defined
+  register: ceip
+
+- name: "[ {{ iecs.instances.0.id }} - {{ ecs.eip.name }} ] Tagging EIP"
+  ali_vpc_tag:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    resource_ids: '{{ ceip.eip.id }}'
+    resource_type: eip
+    tags: '{{ tags }}'
+    state: present
+  when:
+    - ieip.eips.0.id is not defined

@@ -1,0 +1,47 @@
+---
+- name: "[ {{ slb.name }} ] Creating SLB (Private)"
+  ali_slb_lb:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'  
+    load_balancer_name: '{{ slb.name }}'
+    spec: '{{ slb.type }}'
+    master_zone_id: '{{ slb.zone.zone_1 }}'
+    slave_zone_id: '{{ slb.zone.zone_2 }}'
+    is_internet: '{{ slb.internet.enabled }}'
+    tags: '{{ tags }}'
+    state: present
+  when:
+    - islb.load_balancers.0.id is not defined
+    - slb.internet.enabled is defined
+    - slb.internet.enabled | lower | bool is not true
+  register: cslb
+
+- name: "[ {{ slb.name }} ] Creating SLB (Public)"
+  ali_slb_lb:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'  
+    load_balancer_name: '{{ slb.name }}'
+    spec: '{{ slb.type }}'
+    master_zone_id: '{{ slb.zone.zone_1 }}'
+    slave_zone_id: '{{ slb.zone.zone_2 }}'
+    is_internet: '{{ slb.internet.enabled }}'
+    internet_charge_type: '{{ slb.internet.charge_type }}'
+    bandwidth: '{{ slb.internet.bandwidth }}'
+    tags: '{{ tags }}'
+    state: present
+  when:
+    - islb.load_balancers.0.id is not defined
+    - slb.internet.enabled is defined
+    - slb.internet.enabled | lower | bool is true
+  register: cslb
+
+- name: "[ {{ slb.name }} ] Creating SLB - Configuring VSG"
+  include_role:
+    name: slb_vsg
+  loop: '{{ slb.vsg | flatten(levels=1) }}'
+  loop_control:
+    loop_var: vsg
+  when:
+    - slb.vsg is defined

@@ -1,0 +1,25 @@
+---
+- name: "[ {{ vpc.name }} - {{ vpc.cidr }} ] Craeting VPC"
+  ali_vpc:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    vpc_name: '{{ vpc.name }}'
+    description: '{{ vpc.description }}'
+    cidr_block: '{{ vpc.cidr }}'
+    state: present
+  when:
+    - ivpc.vpcs.0.id is not defined
+  register: cvpc
+
+- name: "[ {{ vpc.name }} - {{ vpc.cidr }} ] Tagging VPC"
+  ali_vpc_tag:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    resource_ids: '{{ cvpc.vpc.id }}'
+    resource_type: vpc
+    tags: '{{ tags }}'
+    state: present
+  when:
+    - ivpc.vpcs.0.id is not defined

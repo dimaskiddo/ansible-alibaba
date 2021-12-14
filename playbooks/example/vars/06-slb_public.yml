@@ -1,0 +1,16 @@
+---
+slb:
+  - name: 'SLB-AP-SEA-5-2-Public'
+    type: 'slb.s1.small'
+    zone:
+      zone_1: 'ap-southeast-5a'   # Master Zone
+      zone_2: 'ap-southeast-5b'   # Secondary Zone
+    internet:
+      enabled: true
+      # Valid Value:
+      # PayByBandwidth      : Bandwidth Based
+      # PayByTraffic        : Traffic Based
+      charge_type: 'PayByBandwidth'
+      # Valid Value:
+      # In Mbps
+      bandwidth: 10

@@ -1,0 +1,15 @@
+---
+- name: Security Group
+  hosts: localhost
+
+  vars_files:
+    - vars/01-vpc.yml
+    - vars/03-security_group.yml
+
+  tasks:
+    - name: Configuring Security Group Resource
+      include_role:
+        name: security_group
+      loop: '{{ security_group | flatten(levels=1) }}'
+      loop_control:
+        loop_var: sgs

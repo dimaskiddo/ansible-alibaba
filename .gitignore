@@ -1,0 +1,6 @@
+.venv
+roles/debug
+*debug*
+*.retry
+*.DS_Store
+!*.gitkeep

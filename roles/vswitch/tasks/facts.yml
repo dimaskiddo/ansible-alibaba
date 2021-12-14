@@ -1,0 +1,24 @@
+---
+- name: "[ {{ vpc.name }} - {{ vpc.cidr }} ] Gathering VPC Facts"
+  ali_vpc_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    name_prefix: '{{ vpc.name }}'
+    cidr_prefix: '{{ vpc.cidr }}'
+    tags: '{{ tags }}'
+    filters:
+      is_default: false
+  register: ivpc
+
+- name: "[ {{ vsw.vswitch.name }} - {{ vsw.vswitch.cidr }} ] Gathering VSwitch Facts"
+  ali_vswitch_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    vswitch_name: '{{ vsw.vswitch.name }}'
+    cidr_prefix: '{{ vsw.vswitch.cidr }}'
+    tags: '{{ tags }}'
+    filters:
+      vpc_id: '{{ ivpc.vpcs.0.id }}'
+  register: ivsw

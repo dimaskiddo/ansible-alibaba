@@ -1,0 +1,18 @@
+---
+security_group:
+  - name: 'SGR-AP-SEA-5-Default'
+    description: 'Security Group AP-SEA-5 (Jakarta) Default'
+    inbound:
+      # Allow ICMP
+      - ip_protocol: 'icmp'
+        source_cidr_ip: '0.0.0.0/0'  # 0.0.0.0/0 Mean From Anywhere
+        port_range: '-1/-1'          # -1/-1 Mean Any
+      # Allow SSH
+      - ip_protocol: 'tcp'
+        source_cidr_ip: '0.0.0.0/0'  # 0.0.0.0/0 Mean From Anywhere
+        port_range: '22/22'          # In Spesific Format 22/22, For In Range Format Ex. 10000/11000
+    outbound:
+      # Allow to Anywhere
+      - ip_protocol: 'all'
+        dest_cidr_ip: '0.0.0.0/0'    # 0.0.0.0/0 Mean To Anywhere
+        port_range: '-1/-1'          # -1/-1 Mean Any

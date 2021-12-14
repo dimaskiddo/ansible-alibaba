@@ -1,0 +1,46 @@
+---
+- name: "[ {{ vpc.name }} - {{ vpc.cidr }} ] Gathering VPC Facts"
+  ali_vpc_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    name_prefix: '{{ vpc.name }}'
+    cidr_prefix: '{{ vpc.cidr }}'
+    tags: '{{ tags }}'
+    filters:
+      is_default: false
+  register: ivpc
+
+- name: "[ {{ ecs.vswitch.name }} ] Gathering VSwitch Facts"
+  ali_vswitch_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    vswitch_name: '{{ ecs.vswitch.name }}'
+    tags: '{{ tags }}'
+    filters:
+      vpc_id: '{{ ivpc.vpcs.0.id }}'
+  register: ivsw
+
+- name: "[ {{ ecs.security_group.name }} ] Gathering Security Group Facts"
+  ali_security_group_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    group_name: '{{ ecs.security_group.name }}'
+    tags: '{{ tags }}'
+    filters:
+      vpc_id: '{{ ivpc.vpcs.0.id }}'
+  register: isgs
+
+- name: "[ {{ ecs.name }} ] Gathering ECS Facts"
+  ali_instance_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    alicloud_zone: '{{ ecs.zone }}'
+    instance_names: '{{ ecs.name }}'
+    tags: '{{ tags }}'
+    filters:
+      vpc_id: '{{ ivpc.vpcs.0.id }}'
+  register: iecs

@@ -1,0 +1,29 @@
+---
+- name: "[ {{ ecs.name }} ] Destroying ECS - Configuring Disk"
+  include_role:
+    name: disk
+  loop: '{{ ecs.disk.data | flatten(levels=1) }}'
+  loop_control:
+    loop_var: disk
+  when:
+    - ecs.disk.data is defined
+
+- name: "[ {{ ecs.name }} ] Destroying ECS - Configuring EIP"
+  include_role:
+    name: eip
+  when:
+    - ecs.eip is defined
+
+- name: "[ {{ ecs.name }} ] Destroying ECS"
+  ali_instance:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    alicloud_zone: '{{ ecs.zone }}'
+    instance_ids: '{{ iecs.instances.0.id }}'
+    instance_name: '{{ ecs.name }}'
+    force: true
+    state: absent
+  when:
+    - iecs.instances.0.id is defined
+  

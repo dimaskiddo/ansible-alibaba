@@ -1,0 +1,39 @@
+---
+- name: "[ {{ ecs.name }} ] Creating ECS"
+  ali_instance:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    alicloud_zone: '{{ ecs.zone }}'
+    instance_name: '{{ ecs.name }}'
+    description: '{{ ecs.description }}'
+    type: '{{ ecs.type }}'    
+    image: '{{ ecs.image }}'
+    host_name: '{{ ecs.name }}'
+    password: '{{ ecs.password }}'
+    instance_charge_type: '{{ ecs.charge_type }}'
+    vswitch_id: '{{ ivsw.vswitches.0.id }}'
+    security_groups: ['{{ isgs.groups.0.id }}']
+    allocate_public_ip: false
+    system_disk_category: '{{ ecs.disk.system.category }}'
+    system_disk_size: '{{ ecs.disk.system.size }}'
+    tags: '{{ tags }}'
+    state: present
+  when:
+    - iecs.instances.0.id is not defined
+  register: cecs
+
+- name: "[ {{ ecs.name }} ] Creating ECS - Configuring EIP"
+  include_role:
+    name: eip
+  when:
+    - ecs.eip is defined
+
+- name: "[ {{ ecs.name }} ] Creating ECS - Configuring Disk"
+  include_role:
+    name: disk
+  loop: '{{ ecs.disk.data | flatten(levels=1) }}'
+  loop_control:
+    loop_var: disk
+  when:
+    - ecs.disk.data is defined

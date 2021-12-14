@@ -1,0 +1,12 @@
+---
+- name: "[ {{ vpc.name }} - {{ vpc.cidr }} ] Destroying VPC"
+  ali_vpc:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    vpc_id: '{{ ivpc.vpcs.0.id }}'
+    vpc_name: '{{ vpc.name }}'
+    cidr_block: '{{ vpc.cidr }}'
+    state: absent
+  when:
+    - ivpc.vpcs.0.id is defined

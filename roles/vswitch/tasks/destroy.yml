@@ -1,0 +1,14 @@
+---
+- name: "[ {{ vsw.vswitch.name }} - {{ vsw.vswitch.cidr }} ] Destroying VSwitch"
+  ali_vswitch:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    alicloud_zone: '{{ vsw.name }}'
+    vpc_id: '{{ ivpc.vpcs.0.id }}'
+    vswitch_id: '{{ ivsw.vswitches.0.id }}'
+    vswitch_name: '{{ vsw.vswitch.name }}'
+    cidr_block: '{{ vsw.vswitch.cidr }}'
+    state: absent
+  when:
+    - ivsw.vswitches.0.id is defined

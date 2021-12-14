@@ -1,0 +1,36 @@
+---
+- name: "[ {{ vpc.name }} - {{ vpc.cidr }} ] Gathering VPC Facts"
+  ali_vpc_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    name_prefix: '{{ vpc.name }}'
+    cidr_prefix: '{{ vpc.cidr }}'
+    tags: '{{ tags }}'
+    filters:
+      is_default: false
+  register: ivpc
+
+- name: "[ {{ ecs.name }} ] Gathering ECS Facts"
+  ali_instance_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    alicloud_zone: '{{ ecs.zone }}'    
+    instance_names: '{{ ecs.name }}'
+    tags: '{{ tags }}'
+    filters:
+      vpc_id: '{{ ivpc.vpcs.0.id }}'
+  register: iecs
+
+- name: "[ {{ iecs.instances.0.id }} - {{ disk.name }} ] Gathering Disk Facts"
+  ali_disk_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    name_prefix: '{{ disk.name }}'
+    tags: '{{ tags }}'
+    filters:
+      zone_id: '{{ ecs.zone }}'
+      instance_id: '{{ iecs.instances.0.id }}'
+  register: idisk

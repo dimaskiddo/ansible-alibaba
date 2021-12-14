@@ -1,0 +1,11 @@
+---
+- name: VPC
+  hosts: localhost
+
+  vars_files:
+    - vars/01-vpc.yml
+
+  tasks:
+    - name: Configuring VPC Resource 
+      include_role:
+        name: vpc

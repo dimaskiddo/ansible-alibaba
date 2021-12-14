@@ -1,0 +1,25 @@
+---
+- name: "[ {{ vpc.name }} - {{ vpc.cidr }} ] Gathering VPC Facts"
+  ali_vpc_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    name_prefix: '{{ vpc.name }}'
+    cidr_prefix: '{{ vpc.cidr }}'
+    tags: '{{ tags }}'
+    filters:
+      is_default: false
+  register: ivpc
+
+- name: "[ {{ slb.name }} ] Gathering SLB Facts"
+  ali_instance_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    name_prefix: '{{ slb.name }}'
+    tags: '{{ tags }}'
+    filters:
+      vpc_id: '{{ ivpc.vpcs.0.id }}'
+      master_zone_id: '{{ slb.zone.zone_1 }}'
+      slave_zone_id: '{{ slb.zone.zone_2 }}'
+  register: islb

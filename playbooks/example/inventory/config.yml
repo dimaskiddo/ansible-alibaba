@@ -1,0 +1,22 @@
+all:
+  hosts:
+    localhost
+
+  vars:
+    # Credential used to access Alibaba Cloud APIs
+    access_key: ''
+    secret_key: ''
+
+    # Alibaba Cloud selected region
+    region: 'ap-southeast-5'
+    
+    # Define actions for what to do by Ansible
+    # Valid values:
+    # - none    : Gathering facts only
+    # - create  : Create resources define in variables
+    # - destroy : Remove resources define in varibales
+    actions: 'create'
+
+    # Resource tags
+    tags:
+      env: 'example'

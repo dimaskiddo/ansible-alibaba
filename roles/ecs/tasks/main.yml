@@ -1,0 +1,10 @@
+---
+- include: facts.yml
+
+- include: create.yml
+  when:
+    - actions == 'create'
+
+- include: destroy.yml
+  when:
+    - actions == 'destroy'

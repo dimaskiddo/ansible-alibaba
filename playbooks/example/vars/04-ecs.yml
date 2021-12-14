@@ -1,0 +1,53 @@
+---
+instance:
+  - name: 'ECS-AP-SEA-5-1'
+    description: 'ECS Instance AP-SEA-5 (Jakarta) Zone A - 01'
+    type: 'ecs.t5-lc2m1.nano'
+    image: 'ubuntu_18_04_64_20G_alibase_20190624.vhd'
+    # Valid Value:
+    # Should contain alphanumeric and symbol with uppercase and lowecase
+    # or standard strong password
+    password: 'P@ssw0rd#123'
+    # Valid Value:
+    # PostPaid              : PayAsYouGo
+    # PrePaid               : Subscription
+    charge_type: 'PostPaid'
+    zone: 'ap-southeast-5a'
+    vswitch:
+      name: 'VSW-AP-SEA-5A'
+    security_group:
+      name: 'SGR-AP-SEA-5-Default'
+    eip:
+      name: 'EIP-AP-SEA-5-1'
+      # Valid Value:
+      # PayByBandwidth      : Bandwidth Based
+      # PayByTraffic        : Traffic Based
+      charge_type: 'PayByBandwidth'
+      # Valid Value:
+      # In Mbps
+      bandwidth: 10
+    disk:
+      # System Disk
+      system:
+        # Valid Value:
+        # cloud             : Basic Disk
+        # cloud_efficiency  : Ultra Disk
+        # cloud_ssd         : Standard SSD
+        # cloud_essd        : Enhanced SSD
+        category: 'cloud_ssd'
+        # Valid Value:
+        # 40 - 500 in GB
+        size: 40
+      data:
+        - name: "ECS-AP-SEA-5-1-Data-1"
+          description: "ECS Instance AP-SEA-5 (Jakarta) Zone A - 01 - Data 1"
+          # Valid Value:
+          # cloud             : Basic Disk
+          # cloud_efficiency  : Ultra Disk
+          # cloud_ssd         : Standard SSD
+          # cloud_essd        : Enhanced SSD
+          category: 'cloud_ssd'
+          # Valid Value:
+          # 20 - 32768 in GB
+          size: 20
+          delete_with_instance: false

@@ -1,37 +1,37 @@
 ---
-- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ listener.protocol }}:{{ listener.port }} ] Creating Listener"
+- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol }}:{{ vsg.listener.port }} ] Creating Listener"
   ali_slb_listener:
     alicloud_access_key: '{{ access_key }}'
     alicloud_secret_key: '{{ secret_key }}'
     alicloud_region: '{{ region }}'
     load_balancer_id: '{{ islb.load_balancers.0.id }}'
     vserver_group_id: '{{ ivsg.vserver_groups.0.id }}'
-    protocol: '{{ listener.protocol }}'
-    listener_port: '{{ listener.port }}'
-    backend_server_port: '{{ listener.backend_port }}'
-    scheduler: '{{ listener.algorithm }}'
+    protocol: '{{ vsg.listener.protocol }}'
+    listener_port: '{{ vsg.listener.port }}'
+    backend_server_port: '{{ vsg.listener.backend_port }}'
+    scheduler: '{{ vsg.listener.algorithm }}'
     bandwidth: '-1'
     state: present
   when:
     - ilistener.listener.status is not defined
-    - listener.certificate_id is not defined
+    - vsg.listener.certificate_id is not defined
   register: clistener
 
-- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ listener.protocol }}:{{ listener.port }} ] Creating Listener With Certificate"
+- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol }}:{{ vsg.listener.port }} ] Creating Listener With Certificate"
   ali_slb_listener:
     alicloud_access_key: '{{ access_key }}'
     alicloud_secret_key: '{{ secret_key }}'
     alicloud_region: '{{ region }}'
     load_balancer_id: '{{ islb.load_balancers.0.id }}'
     vserver_group_id: '{{ ivsg.vserver_groups.0.id }}'
-    server_certificate_id: '{{ listener.certificate_id }}'
-    protocol: '{{ listener.protocol }}'
-    listener_port: '{{ listener.port }}'
-    backend_server_port: '{{ listener.backend_port }}'
-    scheduler: '{{ listener.algorithm }}'
+    server_certificate_id: '{{ vsg.listener.certificate_id }}'
+    protocol: '{{ vsg.listener.protocol }}'
+    listener_port: '{{ vsg.listener.port }}'
+    backend_server_port: '{{ vsg.listener.backend_port }}'
+    scheduler: '{{ vsg.listener.algorithm }}'
     bandwidth: '-1'
     state: present
   when:
     - ilistener.listener.status is not defined
-    - listener.certificate_id is defined
+    - vsg.listener.certificate_id is defined
   register: clistener

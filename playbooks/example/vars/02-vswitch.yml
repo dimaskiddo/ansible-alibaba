@@ -5,16 +5,16 @@ zones:
     vswitch:
       name: 'VSW-AP-SEA-5A'
       description: 'VSwitch AP-SEA-5 (Jakarta) Zone A'
-      cidr: '172.16.11.0/24'
+      cidr: '172.16.0.0/24'
   # Zone B
   - name: 'ap-southeast-5b'
     vswitch:
       name: 'VSW-AP-SEA-5B'
       description: 'VSwitch AP-SEA-5 (Jakarta) Zone B'
-      cidr: '172.16.12.0/24'
+      cidr: '172.16.1.0/24'
   # Zone C
   - name: 'ap-southeast-5c'
     vswitch:
       name: 'VSW-AP-SEA-5C'
       description: 'VSwitch AP-SEA-5 (Jakarta) Zone C'
-      cidr: '172.16.13.0/24'
+      cidr: '172.16.2.0/24'

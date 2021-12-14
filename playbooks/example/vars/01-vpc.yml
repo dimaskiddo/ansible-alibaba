@@ -2,4 +2,4 @@
 vpc:
   name: 'VPC-AP-SEA-5'
   description: 'VPC Asia Pasific South East 5 (Jakarta)'
-  cidr: '172.16.0.0/12'
+  cidr: '172.16.0.0/22'

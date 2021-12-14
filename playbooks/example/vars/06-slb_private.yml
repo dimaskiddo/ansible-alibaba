@@ -11,7 +11,7 @@ loadbalancer:
       - name: 'SLB-AP-SEA-5-1-VSG-1'
         backend:
           - type: 'ecs'                          # Valid Value can be ecs or eni
-            server_id: 'i-k1a687z5j8ud9q5qaipz'  # Valid Value must be valid id of ecs oe eni
+            server_id: 'i-xxxxxxxxxxxxxxxxxxxx'  # Valid Value must be valid id of ecs oe eni
             port: 8080
             weight: 100
     listener:
@@ -30,3 +30,8 @@ loadbalancer:
         # wrr       : for Weighted Round-Robin algortihm
         # wlc       : for Weighted Least Connection algorithm
         algorithm: 'wrr'
+        health_check:
+          status: on
+          type: tcp
+          http_code: 'http_2xx'   # Valid Value can be http_2xx or multiple value seperated by coma (,) eg. http_2xx,http_3xx
+          port: 80                # If not declared listener backend port will be used

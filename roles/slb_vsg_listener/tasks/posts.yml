@@ -1,4 +1,0 @@
----
-- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol | upper }}:{{ vsg.listener.port }} ] Refreshing Listener"
-  wait_for:
-    timeout: 3

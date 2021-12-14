@@ -24,3 +24,20 @@
     loop_var: vsg
   when:
     - slb.vsg is defined
+
+- name: "[ {{ slb.name }} ] Creating SLB Subtask Listener"
+  include_role:
+    name: slb_listener
+  loop: '{{ slb.listener | flatten(levels=1) }}'
+  loop_control:
+    loop_var: listener
+  when:
+    - slb.listener is defined
+
+- name: "[ {{ slb.name }} ] Creating SLB Subtask EIP"
+  include_role:
+    name: eip
+  vars:
+    type: slb
+  when:
+    - slb.eip is defined

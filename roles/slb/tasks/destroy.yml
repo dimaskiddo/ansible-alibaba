@@ -1,4 +1,21 @@
 ---
+- name: "[ {{ slb.name }} ] Destroying SLB Subtask EIP"
+  include_role:
+    name: eip
+  vars:
+    type: slb
+  when:
+    - slb.eip is defined
+
+- name: "[ {{ slb.name }} ] Destroying SLB Subtask Listener"
+  include_role:
+    name: slb_listener
+  loop: '{{ slb.listener | flatten(levels=1) }}'
+  loop_control:
+    loop_var: listener
+  when:
+    - slb.listener is defined
+
 - name: "[ {{ slb.name }} ] Destroying SLB Subtask VSG"
   include_role:
     name: slb_vsg

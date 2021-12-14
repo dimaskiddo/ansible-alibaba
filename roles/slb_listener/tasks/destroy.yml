@@ -1,5 +1,5 @@
 ---
-- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ vsg.listener.protocol | upper }}:{{ vsg.listener.port }} ] Destroying Listener"
+- name: "[ {{ ivsg.vserver_groups.0.id }} - {{ listener.protocol | upper }}:{{ listener.port }} ] Destroying Listener"
   ali_slb_listener:
     alicloud_access_key: '{{ access_key }}'
     alicloud_secret_key: '{{ secret_key }}'
@@ -9,5 +9,3 @@
     protocol: '{{ listener.protocol }}'
     listener_port: '{{ listener.port }}'
     state: absent
-  when:
-    - ilistener.listener.status is defined

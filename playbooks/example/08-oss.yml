@@ -3,8 +3,7 @@
   hosts: localhost
 
   vars_files:
-    - vars/01-vpc.yml
-    - vars/07-slb_public.yml
+    - vars/08-oss.yml
 
   tasks:
     - name: Configuring OSS Bucket Resource

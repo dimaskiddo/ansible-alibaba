@@ -19,8 +19,7 @@ loadbalancer:
     vsg:
       - name: 'SLB-AP-SEA-5-2-VSG-1'
         backend:
-          - type: 'ecs'                          # Valid Value can be ecs or eni
-            server_id: 'i-xxxxxxxxxxxxxxxxxxxx'  # Valid Value must be valid id of ecs oe eni
+          - name: 'ECS-AP-SEA-5-1'
             port: 8080
             weight: 100
     listener:

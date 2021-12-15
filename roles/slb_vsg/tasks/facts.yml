@@ -45,3 +45,24 @@
     load_balancer_id: '{{ islb.load_balancers.0.id }}'
     name_prefix: '{{ vsg.name }}'
   register: ivsg
+
+- name: "[ {{ islb.load_balancers.0.id }} - {{ vsg.name }} ] Gathering VSG ECS Backend Facts"
+  ali_instance_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    instance_names: '{{ ecs.name }}'
+    tags: '{{ tags }}'
+    filters:
+      vpc_id: '{{ ivpc.vpcs.0.id }}'
+  loop: '{{ vsg.backend | flatten(levels=1) }}'
+  loop_control:
+    loop_var: ecs
+  register: iecs
+
+- name: "[ {{ islb.load_balancers.0.id }} - {{ vsg.name }} ] Rebuilding VSG ECS Backend Facts"
+  vars:
+    vsg_backend_list: []
+  set_fact:
+    vsg_backend_list: '{{ vsg_backend_list + [{ "type":"ecs", "server_id":item.instances.0.id, "port":item.ecs.port, "weight":item.ecs.weight }] }}'
+  loop: '{{ iecs.results | flatten(levels=1) }}'

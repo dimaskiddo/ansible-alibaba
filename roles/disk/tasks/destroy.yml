@@ -6,6 +6,7 @@
     alicloud_region: '{{ region }}'
     alicloud_zone: '{{ ecs.zone }}'
     instance_id: '{{ iecs.instances.0.id }}'
+    disk_id: '{{ idisk.disks.0.id }}'
     disk_name: '{{ disk.name }}'
     state: absent
   when:

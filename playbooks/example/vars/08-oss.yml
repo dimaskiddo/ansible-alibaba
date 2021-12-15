@@ -1,0 +1,19 @@
+---
+object_storage:
+  # Valid Value:
+  # Name should globaly unique
+  - name: 'OSS-AP-SEA-5-Bucket-1'
+    # Valid Value:
+    # private           : for Private bucket
+    # public-read       : for Public Read-Only bucket
+    # public-read-write : for Public Read-Write bucket (Public Bucket)
+    permission: 'private'
+
+  # Valid Value:
+  # Name should globaly unique
+  - name: 'OSS-AP-SEA-5-Bucket-2'
+    # Valid Value:
+    # private           : for Private bucket
+    # public-read       : for Public Read-Only bucket
+    # public-read-write : for Public Read-Write bucket (Public Bucket)
+    permission: 'public-read'

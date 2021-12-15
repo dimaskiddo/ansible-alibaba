@@ -1,0 +1,10 @@
+---
+- name: "[ {{ bucket.name }} ] Destroying OSS Bucket"
+  ali_oss_bucket:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    bucket: '{{ bucket.name }}'
+    state: absent
+  when:
+    - ibucket.buckets.0.id is defined

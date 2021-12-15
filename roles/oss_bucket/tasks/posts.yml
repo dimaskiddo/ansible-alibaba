@@ -1,0 +1,4 @@
+---
+- name: "[ {{ bucket.name }} ] Creating OSS Bucket"
+  wait_for:
+    timeout: 3

@@ -1,0 +1,8 @@
+---
+- name: "[ {{ bucket.name }} ] Gathering OSS Bucket Facts"
+  ali_oss_bucket_info:
+    alicloud_access_key: '{{ access_key }}'
+    alicloud_secret_key: '{{ secret_key }}'
+    alicloud_region: '{{ region }}'
+    bucket_prefix: '{{ bucket.name }}'
+  register: ibucket
